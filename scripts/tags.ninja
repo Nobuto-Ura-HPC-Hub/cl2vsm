@@ -1,0 +1,8 @@
+rule make-tag
+ command = grep '^[^#]' $in | sort | xargs -n 1 basename -s .cl | sed -e 's%.*%& cl2vsm/&.cl /kernel/%' | tr ' ' '\t' | sort > $out
+ deps = gcc
+ depfile = $out.d
+ description = Compiling C++ object $out.
+
+#----------------------------------------------------------------
+build tags: make-tag cl2vsm/list.txt

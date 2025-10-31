@@ -39,3 +39,9 @@
 
 # debug information files
 *.dwo
+
+#
+_build
+build_cl2vsm.ninja
+.cpcache
+.ninja*

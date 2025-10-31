@@ -1,0 +1,13 @@
+build ll: phony _build/addrspace_pe.ll _build/gemm0.ll
+
+build bc: phony _build/addrspace_pe.bc _build/gemm0.bc
+
+#----------------------------------------------------------------
+build _build/addrspace_pe.ll: emit-ll src/kernels/addrspace_pe.cl
+build _build/gemm0.ll: emit-ll src/gemm_test/kernels/gemm0.cl
+
+#----------------------------------------------------------------
+build _build/addrspace_pe.bc: emit-bc src/kernels/addrspace_pe.cl
+build _build/mncl_simple_gemm0.bc: emit-bc src/gemm_test/kernels/mncl_simple_gemm0.cl
+build _build/gemm0.bc: emit-bc src/gemm_test/kernels/gemm0.cl
+build _build/gemm0.spv: convert_llvm-spirv _build/gemm0.bc

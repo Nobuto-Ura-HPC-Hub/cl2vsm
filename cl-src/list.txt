@@ -1,0 +1,6 @@
+# vim:set iskeyword+=- :
+#
+# OpenACC 対応
+double-vecadd.cl
+#
+nop.cl

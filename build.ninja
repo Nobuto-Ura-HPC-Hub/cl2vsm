@@ -1,0 +1,21 @@
+include /opt/share/mncl-scripts/rule.ninja
+include scripts/llvm.ninja
+include build_cl2vsm.ninja
+include scripts/tags.ninja
+
+build all: phony cl2vsm
+default all
+
+ROOT=/opt/share/mncl-kobe
+LIB_DIR=$ROOT/lib
+INC_DIR=$ROOT/include
+
+ARGS = -I${INC_DIR} -I./include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -std=c++14
+LINK_ARGS = -Wl,--as-needed -Wl,--no-undefined -L${LIB_DIR} -Llib -Wl,--start-group -lcl-utils -lpoclu -lOpenCL -Wl,--end-group
+
+#----------------------------------------------------------------
+#rule mk_build_cl2vsm
+#    command = sh bin/mk_build_cl2vsm.sh > $out
+
+#build build_cl2vsm.ninja: mk_build_cl2vsm cl2vsm/list.txt
+
