@@ -45,3 +45,4 @@ _build
 build_cl2vsm.ninja
 .cpcache
 .ninja*
+golden
