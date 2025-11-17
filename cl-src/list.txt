@@ -1,5 +1,8 @@
 # vim:set iskeyword+=- :
 #
+# ping-pong
+double-ping-pong.cl
+
 # OpenACC 対応
 double-vecadd.cl
 #
