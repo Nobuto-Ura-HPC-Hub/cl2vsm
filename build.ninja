@@ -1,9 +1,19 @@
+LIBGPFN2_BUILD_DIR = /home/ext-ryos36/codegen/070b786d8/pfcomp/codegen/build/mnlinker2/gpfn2
+PCIE_IO = /home/ext-ryos36/codegen/070b786d8/pfcomp/gpfn2/runtime/burn/pcie_io
+LIBGPFN2_DIR = /home/ext-ryos36/codegen/070b786d8/pfcomp/gpfn2/driver/libgpfn2
+
+LIBGPFN_UTILS_DIR = /home/ext-ryos36/mncl-examples/himeno/ryos_work/lib
+SRC_CFLAGS= -I $LIBGPFN2_DIR -I $LIBGPFN_UTILS_DIR -I include
+
+SRC_LINK_ARGS = -Llib -L $LIBGPFN2_BUILD_DIR -lgpfn_utils -lgpfn2 -lnuma
+
 include /opt/share/mncl-scripts/rule.ninja
 include scripts/llvm.ninja
 include build_cl2vsm.ninja
 include scripts/tags.ninja
+include scripts/himeno.ninja
 
-build all: phony cl2vsm
+build all: phony cl2vsm exe
 default all
 
 ROOT=/opt/share/mncl-kobe
@@ -12,6 +22,15 @@ INC_DIR=$ROOT/include
 
 ARGS = -I${INC_DIR} -I./include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -g -std=c++14
 LINK_ARGS = -Wl,--as-needed -Wl,--no-undefined -L${LIB_DIR} -Llib -Wl,--start-group -lcl-utils -lpoclu -lOpenCL -Wl,--end-group
+
+#----------------------------------------------------------------
+build exe: phony _build/vecadd 
+
+#----------------------------------------------------------------
+build _build/vecadd.o: cc_compile src/vecadd.c
+
+build _build/vecadd: cc_link _build/vecadd.o | _build/double-vecadd.vsm
+build _build/test1.vsm: cp vsm-golden/double-vecadd.vsm
 
 #----------------------------------------------------------------
 #rule mk_build_cl2vsm

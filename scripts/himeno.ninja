@@ -1,0 +1,25 @@
+AR_ARGS = csrD
+
+GLOG_BUILD_DIR = /home/ext-ryos36/codegen/070b786d8/pfcomp/codegen/build/glog-build/
+PFN_BASE_BUILD_DIR = /home/ext-ryos36/codegen/070b786d8/pfcomp/codegen/build/base
+GOOGLE_ABSL_BASE_BUILD_DIR = /home/ext-ryos36/codegen/070b786d8/pfcomp/codegen/build/abseil-build/absl/base
+GOOGLE_ABSL_HASH_BUILD_DIR = /home/ext-ryos36/codegen/070b786d8/pfcomp/codegen/build/abseil-build/absl/hash
+GOOGLE_ABSL_CONTAINER_BUILD_DIR = /home/ext-ryos36/codegen/070b786d8/pfcomp/codegen/build/abseil-build/absl/container
+
+#CPP_LINK_ARGS = -L $GOOGLE_ABSL_CONTAINER_BUILD_DIR -L $GOOGLE_ABSL_BASE_BUILD_DIR -L $GOOGLE_ABSL_HASH_BUILD_DIR -L $GLOG_BUILD_DIR -L $PFN_BASE_BUILD_DIR -L $LIBGPFN2_BUILD_DIR -L $LIBGPFN2DMA_BUILD_DIR -lgpfn2dma_static -lgpfn2 -lbase -lnuma -lglog -labsl_base -labsl_hash -labsl_city -labsl_low_level_hash -labsl_raw_hash_set
+
+# for C
+rule cc_compile
+ command = cc $SRC_CFLAGS -MD -MQ $out -MF $out.d -o $out -c $in
+ deps = gcc
+ depfile = $out.d
+ description = Compiling C object $out.
+
+rule cc_link
+ command = cc $SRC_CFLAGS -o $out $in $SRC_LINK_ARGS
+ description = Linking target $out.
+
+rule cc_ar_lib
+ command = rm -f $out && gcc-ar $AR_ARGS $out $in
+ description = Linking static target $out.
+
